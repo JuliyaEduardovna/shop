@@ -1,12 +1,16 @@
 import { useGetProductsQuery } from '../api/productsApi';
 import { ProductCard } from '../components/ProductCard';
 import type { Product } from '../types/Product.type';
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { addToCart } from '../store/cartSlice';
 
 export default function HomePage() {
+  const dispatch = useAppDispatch();
   const { data, isLoading, error } = useGetProductsQuery();
 
   const handleAddToCart = (product: Product) => {
     console.log('Добавлено в корзину:', product.title);
+    dispatch(addToCart(product));
   };
 
   if (isLoading) {
