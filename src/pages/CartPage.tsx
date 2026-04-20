@@ -7,6 +7,10 @@ export default function CartPage() {
   const cartItems = useAppSelector((state) => state.cart.items);
   const dispatch = useAppDispatch();
 
+  const totalSum = cartItems.reduce((sum, item) => {
+    return sum + item.product.price * item.quantity;
+  }, 0).toFixed(2);
+
   return (
     <div className='container mx-auto px-4 py-8'>
       <h1 className='text-3xl font-bold mb-8'>Корзина</h1>
@@ -22,8 +26,9 @@ export default function CartPage() {
           </Link>
         </div>
       ) : (
-        <div className='space-y-4'>
-          {cartItems.map((item) => (
+        <div>
+          <div className='space-y-4'>
+            {cartItems.map((item) => (
             <div
               key={item.product.id}
               className='border rounded-lg p-4 bg-white flex items-center justify-between'
@@ -71,7 +76,18 @@ export default function CartPage() {
                 </button>
               </div>
             </div>
-          ))}
+            ))}
+          </div>
+          
+          <div className='mt-8 text-right'>
+            <p className='text-2xl font-bold text-purple-600'>Итого: ${totalSum}</p>
+            <button 
+              className='mt-4 bg-purple-600 text-white px-8 py-3 rounded-lg hover:bg-purple-700 transition-colors'
+              onClick={() => alert('Заказ оформлен!')}
+            >
+              Оформить заказ
+            </button>
+          </div>
         </div>
       )}
     </div>
